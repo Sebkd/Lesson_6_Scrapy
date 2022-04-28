@@ -9,15 +9,17 @@
 
 BOT_NAME = 'jobparser'
 
-SPIDER_MODULES = ['Lesson_6_Scrapy.jobparser.spiders']
-NEWSPIDER_MODULE = 'Lesson_6_Scrapy.jobparser.spiders'
+# SPIDER_MODULES = ['Lesson_6_Scrapy.jobparser.spiders']
+# NEWSPIDER_MODULE = 'Lesson_6_Scrapy.jobparser.spiders'
+SPIDER_MODULES = ['jobparser.spiders']
+NEWSPIDER_MODULE = 'jobparser.spiders'
 
 LOG_ENABLED = True
 LOG_LEVEL = "DEBUG"
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 # USER_AGENT = 'jobparser (+http://www.yourdomain.com)'
-USER_AGENT = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.102 Safari/537.36'
+USER_AGENT = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/101.0.4951.41 Safari/537.36'
 
 # Obey robots.txt rules здесь содержится информация о парсинге сайта, о его структуре
 # ROBOTSTXT_OBEY = True использует файлы кроулинга, сейчас доступ к ним перекрывают
