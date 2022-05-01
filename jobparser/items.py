@@ -17,4 +17,5 @@ class JobparserItem(scrapy.Item):
     max_salary = scrapy.Field()
     currency = scrapy.Field()
     comment = scrapy.Field()
+    _id = scrapy.Field()
     pass

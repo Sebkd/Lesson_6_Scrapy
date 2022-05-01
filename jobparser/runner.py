@@ -12,5 +12,6 @@ if __name__ == '__main__':  # ctrl+j main
 
     process = CrawlerProcess(settings=crawler_settings)
     process.crawl(HhruSpider)
+    process.crawl()
 
     process.start()
