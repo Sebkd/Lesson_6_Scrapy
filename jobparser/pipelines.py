@@ -15,29 +15,72 @@ class JobparserPipeline:
         self.mongobase = client.vacancies0105
 
     def process_item(self, item, spider):
-        item['company'] = ' '.join(item['company'])
-        item['min_salary'], item['max_salary'], item['currency'], item['comment'] = self.process_salary(item['salary'])
 
-        collection = self.mongobase[spider.name]
-        collection.insert_one(item)
+        if spider.name == 'hhru':
+            item['company'] = ' '.join(item['company'])
+            item['min_salary'], item['max_salary'], item['currency'], item['comment'] = self.process_salary(
+                item['salary'])
 
-        return item
+
+            collection = self.mongobase[spider.name]
+            collection.insert_one(item)
+
+            return item
+
+        if spider.name == 'superjob':
+            item['company'] = ' '.join(item['company'])
+            item['min_salary'], item['max_salary'], item['currency'], item['comment'] = self.process_salary_sj(
+                item['salary'], item['url'])
+
+
+            collection = self.mongobase[spider.name]
+            collection.insert_one(item)
+
+            return item
+
+    def process_salary_sj(self, salary, url):
+        FILL = '---'
+        if len(salary) == 1:
+            return FILL, FILL, FILL, salary[-1]
+        if 'до' in salary:
+            max_salary = salary[2] if salary[1] == ' ' else salary[1]
+            if 'от' not in salary:
+                min_salary = FILL
+                comment = salary[-1]
+                currency = 'руб.'
+                return min_salary, max_salary, currency, comment
+        elif 'от' in salary:
+            min_salary = salary[2]
+            if 'до' not in salary:
+                max_salary = FILL
+                comment = salary[-1]
+                currency = 'руб.'
+                return min_salary, max_salary, currency, comment
+        else:
+            min_salary = salary[0]
+            max_salary = salary[1]
+            currency = salary[-2]
+            comment = salary[-1]
+            return min_salary, max_salary, currency, comment
 
     def process_salary(self, salary):
-        if 'от ' not in salary and ' до ' not in salary:
-            return '0', '0', '---', ' '.join(salary)
+        FILL = '---'
+        if 'от ' not in salary and ' до ' not in salary and 'до ' not in salary:
+            return FILL, FILL, FILL, ' '.join(salary)
         if 'от ' in salary:
             min_salary = salary[1]
         else:
-            min_salary = ''
+            min_salary = FILL
         if ' до ' in salary:
             max_salary = salary[3]
+        elif 'до ' in salary:
+            max_salary = salary[1]
         else:
-            max_salary = ''
+            max_salary = FILL
         if len(salary[-1]) > 4:
             currency = salary[-2]
             comment = salary[-1]
         else:
             currency = salary[-1]
-            comment = '---'
+            comment = FILL
         return min_salary, max_salary, currency, comment

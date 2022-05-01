@@ -4,8 +4,8 @@ from scrapy.http import HtmlResponse
 from jobparser.items import JobparserItem
 
 
-class SuperJobruSpider(scrapy.Spider):
-    name = 'superjobru'
+class SuperjobSpider(scrapy.Spider):
+    name = 'superjob'
     allowed_domains = ['superjob.ru']
     start_urls = ['https://www.superjob.ru/vacancy/search/?keywords=Python&geo%5Bt%5D%5B0%5D=4',
                   'https://www.superjob.ru/vacancy/search/?keywords=Python%20developer&geo%5Bt%5D%5B0%5D=4',
